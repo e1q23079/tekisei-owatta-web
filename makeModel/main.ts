@@ -1,6 +1,7 @@
 import fs from "fs";
 import { parse } from "csv-parse/sync";
 import { makeModels, Model, tokenizeJapaneseText } from "./learn";
+import { makeSentence } from "./make";
 // 質問データの配列
 const questions = [];
 // CSVファイルから質問データを読み込み
@@ -85,3 +86,7 @@ const jsonData: jsonData = {
 // JSONデータをファイルに書き込み
 fs.writeFileSync(`./data/model.json`, JSON.stringify(jsonData, null, 2), "utf-8");
 console.log("Model JSON file has been created successfully.");
+
+for (let i = 0; i < 5; i++) {
+    console.log(`Generated sentence ${i + 1}: ${makeSentence(question_model).join("")}`);
+}
