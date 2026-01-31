@@ -1,5 +1,6 @@
 import fs from "fs";
 import { parse } from "csv-parse/sync";
+import { makeModels, Model, tokenizeJapaneseText } from "./learn";
 // 質問データの配列
 const questions = [];
 // CSVファイルから質問データを読み込み
@@ -52,18 +53,33 @@ const resultCSVRecord = parse(resultsCSV, {
 for (const record of resultCSVRecord) {
     results.push(record);
 }
+console.log("CSV data has been loaded.");
+
+// 質問データのトークナイズ
+const questions_token: string[][] = [];
+// 各質問文をトークナイズ
+for (const question of questions) {
+    console.log(`Tokenizing question: ${questions.indexOf(question) + 1}/${questions.length}`);
+    const tokens = await tokenizeJapaneseText(question);
+    questions_token.push(tokens);
+}
+console.log("Questions have been tokenized.");
+// トークナイズのモデル作成
+const question_model = makeModels(questions_token);
+console.log("Question model has been created.");
+
 
 // JSONデータの作成
 type jsonData = {
-    questions: string[],
-    choices: string[],
-    results: Result[]
+    questions: Model,
+    choices: Model | null,
+    results: Model | null
 };
 
 const jsonData: jsonData = {
-    questions: questions,
-    choices: choices,
-    results: results
+    questions: question_model,
+    choices: null,
+    results: null
 };
 
 // JSONデータをファイルに書き込み
