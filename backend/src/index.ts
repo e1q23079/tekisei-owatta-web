@@ -1,5 +1,6 @@
 import express from 'express';
 import fs from "fs";
+import cors from 'cors';
 import * as load from "./load";
 import { getQuestion, getChoice, getResult } from "./get";
 
@@ -9,6 +10,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 // Define a simple route to respond with "Hello, World!" when accessing the root URL
 app.use(express.static('public'));
+
+// CORS設定
+app.use(cors({
+    origin: 'http://localhost:5173', // フロントエンドのURLに置き換えてください
+}))
 
 const jsonInfo = load.getJsonData();
 const questionsModel = load.getQuestionsModel(jsonInfo);
