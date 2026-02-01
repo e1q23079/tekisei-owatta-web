@@ -11,10 +11,10 @@ const port = process.env.PORT || 3000;
 // Define a simple route to respond with "Hello, World!" when accessing the root URL
 app.use(express.static('public'));
 
-// CORS設定
-app.use(cors({
-    origin: 'http://localhost:5173', // フロントエンドのURLに置き換えてください
-}))
+// // CORS設定
+// app.use(cors({
+//     origin: 'http://localhost:5173', // フロントエンドのURLに置き換えてください
+// }))
 
 const jsonInfo = load.getJsonData();
 const questionsModel = load.getQuestionsModel(jsonInfo);
@@ -44,10 +44,12 @@ type ApiResponse = {
 
 // 1~4のランダムな配列を生成
 const generateRandomArray = (): number[] => {
-    const arr = [1, 2, 3, 4];
+    const arr: number[] = [1, 2, 3, 4];
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        const tmp = arr[i]!;
+        arr[i] = arr[j]!;
+        arr[j] = tmp!;
     }
     return arr;
 }

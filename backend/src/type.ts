@@ -11,4 +11,4 @@ type Model = {
     [word: string]: string[];
 }
 
-export { jsonData, Model };
+export type { jsonData, Model };

@@ -51,7 +51,7 @@ const QuestionView = () => {
 
     // 問題を取得
     useEffect(() => {
-        fetch(`http://localhost:3000/get/question?key=${key}`, { method: 'GET' })
+        fetch(`/get/question?key=${key}`, { method: 'GET' })
             .then(response => response.json())
             .then((data: ApiResponse) => {
                 setQuestionsData(data.questions);
