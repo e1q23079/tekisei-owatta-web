@@ -2,6 +2,7 @@ import fs from "fs";
 import { parse } from "csv-parse/sync";
 import { makeModels, Model, tokenizeJapaneseText } from "./learn";
 import { makeSentence } from "./make";
+
 // 質問データの配列
 const questions = [];
 // CSVファイルから質問データを読み込み
@@ -122,14 +123,3 @@ const jsonData: jsonData = {
 // JSONデータをファイルに書き込み
 fs.writeFileSync(`./data/model.json`, JSON.stringify(jsonData, null, 2), "utf-8");
 console.log("Model JSON file has been created successfully.");
-
-for (let i = 0; i < 5; i++) {
-    const text1 = makeSentence(jsonData.questions);
-    const text2 = makeSentence(jsonData.results.resultName);
-    const text3 = makeSentence(jsonData.results.description);
-    console.log(`Generated Sample ${i + 1}:`);
-    console.log(` Question Sample: ${text1}`);
-    console.log(` Result Name Sample: ${text2}`);
-    console.log(` Result Description Sample: ${text3}`);
-    console.log("--------------------------------------------------");
-}
