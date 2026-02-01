@@ -42,6 +42,16 @@ type ApiResponse = {
     results: Result[];
 } | { error: string };
 
+// 1~4のランダムな配列を生成
+const generateRandomArray = (): number[] => {
+    const arr = [1, 2, 3, 4];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 // データを取得
 const getData = (): ApiResponse => {
     const questions: Question[] = [];
@@ -54,15 +64,19 @@ const getData = (): ApiResponse => {
         questions.push({
             text: question,
             options: options,
-            point: [1, 2, 3, 4]
+            point: generateRandomArray()
         });
     }
+
+    const totalMaxScore = 10 * 4; // 10問、各問最大4点
+    const scoreStep = Math.floor(totalMaxScore / 5); // 5段階評価のためのスコア幅
+
     const results: Result[] = [];
     for (let i = 0; i < 5; i++) {
         const resultData = getResult(resultsModel);
         results.push({
-            minScore: i * 8 + 1,
-            maxScore: (i + 1) * 8,
+            minScore: i * scoreStep + 1,
+            maxScore: (i + 1) * scoreStep,
             result: resultData.resultName,
             text: resultData.description
         });
