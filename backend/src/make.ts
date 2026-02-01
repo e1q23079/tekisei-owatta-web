@@ -1,6 +1,6 @@
 import { Model } from "./type";
 
-const makeSentence = (model: Model, maxWords: number = 100): string => {
+const makeSentence = (model: Model, maxWords: number = 1000): string => {
     const result: string[] = [];
     let word: string = "^^START^^";
     for (let i = 0; i < maxWords; i++) {
