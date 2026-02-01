@@ -1,6 +1,4 @@
-type Model = {
-    [word: string]: string[];
-}
+import { Model } from "./type";
 
 const makeSentence = (model: Model, maxWords: number = 50): string => {
     const result: string[] = [];

@@ -69,18 +69,54 @@ console.log("Questions have been tokenized.");
 const question_model = makeModels(questions_token);
 console.log("Question model has been created.");
 
+// 選択肢データのトークナイズ
+const choices_token: string[][] = [];
+// 各選択肢文をトークナイズ
+for (const choice of choices) {
+    console.log(`Tokenizing choice: ${choices.indexOf(choice) + 1}/${choices.length}`);
+    const tokens = await tokenizeJapaneseText(choice);
+    choices_token.push(tokens);
+}
+console.log("Choices have been tokenized.");
+// トークナイズのモデル作成
+const choice_model = makeModels(choices_token);
+console.log("Choice model has been created.");
+
+// 結果データのトークナイズ
+const results_token_result_name: string[][] = [];
+const results_token_description: string[][] = [];
+// 各結果文をトークナイズ
+for (const result of results) {
+    console.log(`Tokenizing result: ${results.indexOf(result) + 1}/${results.length}`);
+    const tokens_name = await tokenizeJapaneseText(result.result_name);
+    results_token_result_name.push(tokens_name);
+    const tokens_description = await tokenizeJapaneseText(result.description);
+    results_token_description.push(tokens_description);
+}
+console.log("Results have been tokenized.");
+// トークナイズのモデル作成
+const result_model_result_name = makeModels(results_token_result_name);
+const result_model_description = makeModels(results_token_description);
+console.log("Result model has been created.");
+
 
 // JSONデータの作成
 type jsonData = {
     questions: Model,
-    choices: Model | null,
-    results: Model | null
+    choices: Model,
+    results: {
+        resultName: Model,
+        description: Model
+    }
 };
 
 const jsonData: jsonData = {
     questions: question_model,
-    choices: null,
-    results: null
+    choices: choice_model,
+    results: {
+        resultName: result_model_result_name,
+        description: result_model_description
+    }
 };
 
 // JSONデータをファイルに書き込み
@@ -88,5 +124,12 @@ fs.writeFileSync(`./data/model.json`, JSON.stringify(jsonData, null, 2), "utf-8"
 console.log("Model JSON file has been created successfully.");
 
 for (let i = 0; i < 5; i++) {
-    console.log(`Generated sentence ${i + 1}: ${makeSentence(question_model).join("")}`);
+    const text1 = makeSentence(jsonData.questions);
+    const text2 = makeSentence(jsonData.results.resultName);
+    const text3 = makeSentence(jsonData.results.description);
+    console.log(`Generated Sample ${i + 1}:`);
+    console.log(` Question Sample: ${text1}`);
+    console.log(` Result Name Sample: ${text2}`);
+    console.log(` Result Description Sample: ${text3}`);
+    console.log("--------------------------------------------------");
 }
