@@ -52,10 +52,16 @@ const generateRandomArray = (): number[] => {
     return arr;
 }
 
+// 10~100のランダムな問題数を生成
+const generateRandomQuestionCount = (): number => {
+    return Math.floor(Math.random() * 91) + 10;
+}
+
 // データを取得
 const getData = (): ApiResponse => {
     const questions: Question[] = [];
-    for (let i = 0; i < 10; i++) {
+    const questionCount = generateRandomQuestionCount();
+    for (let i = 0; i < questionCount; i++) {
         const question: string = getQuestion(questionsModel);
         const options: string[] = [];
         for (let j = 0; j < 4; j++) {
@@ -68,11 +74,12 @@ const getData = (): ApiResponse => {
         });
     }
 
-    const totalMaxScore = 10 * 4; // 10問、各問最大4点
-    const scoreStep = Math.floor(totalMaxScore / 5); // 5段階評価のためのスコア幅
+    const totalMaxScore = questionCount * 4; // 問題数、各問最大4点
+    const stepWidth = Math.floor(questionCount / 2);
+    const scoreStep = Math.floor(totalMaxScore / stepWidth); // 段階評価のためのスコア幅
 
     const results: Result[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < stepWidth; i++) {
         const resultData = getResult(resultsModel);
         results.push({
             minScore: i * scoreStep + 1,
