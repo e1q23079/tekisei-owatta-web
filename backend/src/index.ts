@@ -62,7 +62,7 @@ const generateRandomQuestionCount = (a: number, b: number): number => {
 // データを取得
 const getData = (): ApiResponse => {
     const questions: Question[] = [];
-    const questionCount = generateRandomQuestionCount(15, 30);
+    const questionCount = generateRandomQuestionCount(10, 15);
     for (let i = 0; i < questionCount; i++) {
         const question: string = getQuestion(questionsModel);
         const options: string[] = [];

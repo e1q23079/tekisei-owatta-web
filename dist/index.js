@@ -71,7 +71,7 @@ const generateRandomQuestionCount = (a, b) => {
 // データを取得
 const getData = () => {
     const questions = [];
-    const questionCount = generateRandomQuestionCount(15, 30);
+    const questionCount = generateRandomQuestionCount(10, 15);
     for (let i = 0; i < questionCount; i++) {
         const question = (0, get_1.getQuestion)(questionsModel);
         const options = [];
