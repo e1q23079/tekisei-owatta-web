@@ -21,7 +21,7 @@ const TopView = () => {
                     本適性検査は科学的根拠に一切基づいておらず、人生の意思決定に絶対に用いないでください。
                 </Alert>
                 <Typography variant="body1" component="div" sx={{ p: 2 }}>
-                    あなたの適性を測定できません。
+                    この検査では、あなたの適性を測定できません。
                 </Typography>
                 {/* 概要 */}
                 <List>
