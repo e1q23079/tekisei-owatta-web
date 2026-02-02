@@ -54,15 +54,15 @@ const generateRandomArray = (): number[] => {
     return arr;
 }
 
-// 10~100のランダムな問題数を生成
-const generateRandomQuestionCount = (): number => {
-    return Math.floor(Math.random() * 91) + 10;
+// a~bのランダムな問題数を生成
+const generateRandomQuestionCount = (a: number, b: number): number => {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
 // データを取得
 const getData = (): ApiResponse => {
     const questions: Question[] = [];
-    const questionCount = generateRandomQuestionCount();
+    const questionCount = generateRandomQuestionCount(15, 30);
     for (let i = 0; i < questionCount; i++) {
         const question: string = getQuestion(questionsModel);
         const options: string[] = [];
