@@ -84,15 +84,18 @@ const getData = () => {
             point: generateRandomArray()
         });
     }
+    const totalMinScore = questionCount * 1; // 問題数、各問最小1点
     const totalMaxScore = questionCount * 4; // 問題数、各問最大4点
-    const stepWidth = Math.floor(questionCount / 2);
-    const scoreStep = Math.floor(totalMaxScore / stepWidth); // 段階評価のためのスコア幅
+    // console.log(`質問数: ${questionCount}、最小スコア: ${totalMinScore}、最大スコア: ${totalMaxScore}`);
+    const stepWidth = 5; // 段階評価の幅
+    const scoreStep = Math.floor((totalMaxScore - totalMinScore) / stepWidth) + 1; // 段階評価のためのスコア幅
     const results = [];
     for (let i = 0; i < stepWidth; i++) {
         const resultData = (0, get_1.getResult)(resultsModel);
+        const tempMinScore = (i + 1) * scoreStep + totalMinScore;
         results.push({
-            minScore: i * scoreStep + 1,
-            maxScore: (i + 1) * scoreStep,
+            minScore: i * scoreStep + totalMinScore,
+            maxScore: tempMinScore <= totalMaxScore ? tempMinScore : totalMaxScore,
             result: resultData.resultName,
             text: resultData.description
         });
